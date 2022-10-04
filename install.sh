@@ -2610,8 +2610,6 @@ customCDNIP() {
 	echoContent skyBlue "\n进度 $1/${totalProgress} : 添加cloudflare自选CNAME"
 	echoContent red "\n=============================================================="
 	echoContent yellow "# 注意事项"
-	echoContent yellow "\n教程地址:"
-	echoContent skyBlue "https://github.com/mack-a/v2ray-agent/blob/master/documents/optimize_V2Ray.md"
 	echoContent red "\n如对Cloudflare优化不了解，请不要使用"
 	echoContent yellow "\n 1.移动:104.16.123.96"
 	echoContent yellow " 2.联通:www.cloudflare.com"
@@ -3429,28 +3427,7 @@ removeUser() {
 	fi
 	manageAccount 1
 }
-# 更新脚本
-updateV2RayAgent() {
-	echoContent skyBlue "\n进度  $1/${totalProgress} : 更新v2ray-agent脚本"
-	rm -rf /etc/v2ray-agent/install.sh
-	if wget --help | grep -q show-progress; then
-		wget -c -q --show-progress -P /etc/v2ray-agent/ -N --no-check-certificate "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh"
-	else
-		wget -c -q -P /etc/v2ray-agent/ -N --no-check-certificate "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh"
-	fi
 
-	sudo chmod 700 /etc/v2ray-agent/install.sh
-	local version
-	version=$(grep '当前版本:v' "/etc/v2ray-agent/install.sh" | awk -F "[v]" '{print $2}' | tail -n +2 | head -n 1 | awk -F "[\"]" '{print $1}')
-
-	echoContent green "\n ---> 更新完毕"
-	echoContent yellow " ---> 请手动执行[vasma]打开脚本"
-	echoContent green " ---> 当前版本:${version}\n"
-	echoContent yellow "如更新不成功，请手动执行下面命令\n"
-	echoContent skyBlue "wget -P /root -N --no-check-certificate https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh && chmod 700 /root/install.sh && /root/install.sh"
-	echo
-	exit 0
-}
 
 # 防火墙
 handleFirewall() {
@@ -4812,17 +4789,9 @@ switchAlpn() {
 menu() {
 	cd "$HOME" || exit
 	echoContent red "\n=============================================================="
-	echoContent green "作者:mack-a"
+	echoContent green "作者:mg"
 	echoContent green "当前版本:v2.5.78"
-	echoContent green "Github:https://github.com/mack-a/v2ray-agent"
-	echoContent green "描述:八合一共存脚本\c"
 	showInstallStatus
-	echoContent red "\n=============================================================="
-	echoContent red "                        推广区                      "
-	echoContent green "AFF捐赠：https://github.com/mack-a/v2ray-agent/blob/master/documents/donation_aff.md\n"
-	echoContent green "虚拟币捐赠：0xB08b731653515b083deE362fefFc45d5eb96c35d\n"
-	echoContent green "推广可联系TG：https://t.me/mackaff"
-	echoContent red "=============================================================="
 	if [[ -n "${coreInstallType}" ]]; then
 		echoContent yellow "1.重新安装"
 	else
@@ -4838,19 +4807,8 @@ menu() {
 
 	echoContent skyBlue "-------------------------工具管理-----------------------------"
 	echoContent yellow "4.账号管理"
-	echoContent yellow "5.更换伪装站"
 	echoContent yellow "6.更新证书"
-	echoContent yellow "7.更换CDN节点"
-	echoContent yellow "8.IPv6分流"
-	echoContent yellow "9.WARP分流"
-	echoContent yellow "10.流媒体工具"
-	echoContent yellow "11.添加新端口"
-	echoContent yellow "12.BT下载管理"
-	echoContent yellow "13.切换alpn"
-	echoContent yellow "14.域名黑名单"
 	echoContent skyBlue "-------------------------版本管理-----------------------------"
-	echoContent yellow "15.core管理"
-	echoContent yellow "16.更新脚本"
 	echoContent yellow "17.安装BBR、DD脚本"
 	echoContent skyBlue "-------------------------脚本管理-----------------------------"
 	echoContent yellow "18.查看日志"
@@ -4872,41 +4830,8 @@ menu() {
 	4)
 		manageAccount 1
 		;;
-	5)
-		updateNginxBlog 1
-		;;
 	6)
 		renewalTLS 1
-		;;
-	7)
-		updateV2RayCDN 1
-		;;
-	8)
-		ipv6Routing 1
-		;;
-	9)
-		warpRouting 1
-		;;
-	10)
-		streamingToolbox 1
-		;;
-	11)
-		addCorePort 1
-		;;
-	12)
-		btTools 1
-		;;
-	13)
-		switchAlpn 1
-		;;
-	14)
-		blacklist 1
-		;;
-	15)
-		coreVersionManageMenu 1
-		;;
-	16)
-		updateV2RayAgent 1
 		;;
 	17)
 		bbrInstall
